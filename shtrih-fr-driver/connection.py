@@ -6,8 +6,8 @@ class Connection(object):
 
     def __init__(self, com):
         self.com = com
-        self.connection_type = 'serial'
-        # self.connection_type = 'tcp'
+        # self.connection_type = 'serial'
+        self.connection_type = 'tcp'
         self.mode = 'clean'
         # self.mode = 'soft'
 
@@ -18,8 +18,8 @@ class Connection(object):
                 self.con_in = self.com.read
                 self.con_out = self.com.write
                 return self.com
-            except serial.SerialException:
-                print("Ошибка! Не могу подключиться к кассе.")
+            except serial.SerialException as msg:
+                print("Ошибка! Не могу подключиться к кассе: ", msg)
         elif self.connection_type == 'tcp':
             try:
                 self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -27,9 +27,8 @@ class Connection(object):
                 self.con_in = self.s.recv
                 self.con_out = self.s.send
                 return self.s
-            except socket.error:
-                print("Ошибка! Не могу подключиться к кассе.")
-
+            except socket.error as msg:
+                print("Ошибка! Не могу подключиться к кассе: ", msg)
 
     def disconnect(self):
         if self.connection_type == 'serial':
