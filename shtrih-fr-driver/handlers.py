@@ -71,10 +71,10 @@ def time_converse(time_bytes):
     return time
 
 
-def load_bmp():
+def load_bmp(img="000.bmp"):
     with BytesIO() as output:
         from PIL import Image
-        with Image.open("000.bmp") as img:
+        with Image.open(img) as img:
             img.convert('RGB').save(output, 'BMP')
         data = output.getvalue()
         width = int.from_bytes(data[18:22], byteorder='little')
