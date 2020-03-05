@@ -58,8 +58,6 @@ class Protocol(Connection):
         payload = self.con_in(from_bytes(length))
         lrc = self.con_in(1)
 
-        # print_beauty_bytes(stx + length + payload + lrc)
-
         if self.mode == 'soft':
             print(f'   принят STX: {stx}\n'
                   f'   принят LENGTH: {length}\n'
@@ -84,7 +82,6 @@ class Protocol(Connection):
         обработка команды
         """
         print("Команда: ", lists.commands.get(com_name))
-        # print(len(command_body))
         payload = self.send_command(self.command_formation(com_name, command_body))
         self.con_in(1)
 
