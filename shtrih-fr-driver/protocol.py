@@ -18,7 +18,7 @@ class Protocol(Connection):
     def __init__(self):
         Connection.__init__(self, '')
 
-    def control_byte(self, byte_arr):
+    def control_sum(self, byte_arr):
         """
         рассчет контрольной суммы
         """
@@ -34,7 +34,7 @@ class Protocol(Connection):
         """
         # print(len(command_name), len(self.password), len(command_body))
         length = bytes([len(command_name) + len(self.password) + len(command_body)])
-        lrc = self.control_byte(length + command_name + self.password + command_body)
+        lrc = self.control_sum(length + command_name + self.password + command_body)
         command_full = self.STX + length + command_name + self.password + command_body + lrc
 
         return command_full

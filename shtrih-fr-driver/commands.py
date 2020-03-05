@@ -61,13 +61,13 @@ class Commands(Protocol):
             bytes(text.encode('cp1251'))
         ))
 
-    def print_header(self, zagolovok, number=1):
+    def print_header(self, text, number=1):
         """
         18h Печать заголовка документа
         """
         return Answer.separator(self.command(
             b'\x18',
-            bytes(zagolovok.encode('cp1251')).ljust(30, b'\x00') +
+            bytes(text.encode('cp1251')).ljust(30, b'\x00') +
             number.to_bytes(2, byteorder='little')
         ))
 
@@ -436,9 +436,9 @@ class Commands(Protocol):
             bytes(text.encode('cp1251'))
         ))
 
-    def operation_v2(self, quantity, price, name, doc_type=1,
+    def operation_v2(self, quantity, price, name, tax_rate=1, doc_type=1,
                      oper_sum=10995116277.75, tax=10995116277.75,
-                     tax_rate=1, section=4, sposob=1, predmet=1):
+                     section=4, sposob=1, predmet=11):
         """
         FF46h Операция V2
         """
@@ -493,3 +493,14 @@ class Commands(Protocol):
             len(body).to_bytes(2, byteorder='little') +
             tag(tag_name, body)
         ))
+
+    def marking(self, code):
+        """
+        FF67 Привязка маркированного товара к позиции
+        """
+        return Answer.separator(self.command(
+            b'\xFF\x67',
+            bytes([len(code)]) +
+            bytes(code.encode('cp1251'))
+        ))
+

@@ -6,8 +6,8 @@ class Connection(object):
 
     def __init__(self, com):
         self.com = com
-        self.connection_type = 'serial'
-        # self.connection_type = 'tcp'
+        # self.connection_type = 'serial'
+        self.connection_type = 'tcp'
         # self.mode = 'clean'
         self.mode = 'soft'
 
@@ -20,8 +20,7 @@ class Connection(object):
                 return self.com
             elif self.connection_type == 'tcp':
                 self.s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                # self.s.connect(('192.168.137.111', 7778))
-                self.s.connect(('192.168.1.9', 7778))
+                self.s.connect(('192.168.137.111', 7778))
                 self.con_in = self.s.recv
                 self.con_out = self.s.send
                 return self.s

@@ -19,7 +19,8 @@ def number_match(arg):
     if re.match(r'\d+$', arg):
         return arg
 
-def kassir_match(arg):
+
+def cashier_match(arg):
     if re.match(r'КАССИР \w+$', arg):
         return arg
 
@@ -53,11 +54,11 @@ def date_match(date):
 tag_type = {
     1005: (('строка', 256, None),),
     1008: (('строка', 64, FunctionSave(tel_email_match)),),
-    1016: (('строка', 12, FunctionSave(inn_match)),), #могут быть 2 пробела(добавить проверку)
-    1021: (('строка', 64, FunctionSave(kassir_match)),),
+    1016: (('строка', 12, FunctionSave(inn_match)),),
+    1021: (('строка', 64, FunctionSave(cashier_match)),),
     1026: (('строка', 64, None),),
     1044: (('строка', 24, None),),
-    1057: (('байт', 1, None),),
+    1057: (('байт', 1, None),), # отправка в виде b''
     1073: (('строка', 19, FunctionSave(tel_match)),),
     1074: (('строка', 19, FunctionSave(tel_match)),),
     1075: (('строка', 19, FunctionSave(tel_match)),),
@@ -84,10 +85,10 @@ tag_type = {
     1198: (('vln', 19, FunctionSave(vln_match)),),
     1191: (('строка', 64, None),),
     1197: (('строка', 16, None),),
-    1162: ((),),
-    1222: ((),),
-    1226: ((),),
-    1225: ((),),
+    #1162: (('строка', 8, None),),
+    1222: (('байт', 1, None),),
+    1226: (('строка', 12, FunctionSave(inn_match)),),
+    1225: (('строка', 256, None),),
 }
 
 
@@ -104,11 +105,7 @@ def tag(name, body):
                         return bytes(func(body).encode('cp866'))
                     except:
                         raise exepts.IncorrectTagValue('Неверное значение тега')
+            elif tag_format == 'байт':
+                return body
             else:
                 return func(body)
-
-
-# print(tag(1178, (2020, 1, 1)))
-# print(tag(1005, 'asdasdads'))
-# print(tag(1008, '123'))
-# print(tag(1016, '1234567890'))

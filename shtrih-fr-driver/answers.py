@@ -6,18 +6,10 @@ class Answer(object):
     @staticmethod
     def separator(payload):
         result = {}
-        # print(payload[0:1])
-        # print(payload[0:2])
         if payload[0:1] == b'\xFF':
-            # print('1111111111')
             command_name = answer_list.get(payload[0:2])
-        # elif payload[0:1] == b'\xFE':
-        #     print('2222222222')
-        #     command_name = answer_list.get(payload[0:2])
         else:
-            # print('3333333333')
             command_name = answer_list.get(payload[0:1])
-        # print(command_name)
         for desc, section, func in command_name:
             value = func(payload[section])
             result[desc] = value
@@ -30,8 +22,8 @@ answer_list = {
         ('Код ошибки: ', slice(1, 2), FunctionSave(from_bytes)),
         ('Порядковый номер оператора: ', slice(2, 3), FunctionSave(from_bytes)),
         ('Флаги: ', slice(3, 5), FunctionSave(kkt_flag_converse)),
-        ('Режим: ', slice(5, 6), FunctionSave(lists.kkt_mode_dict.get)),
-        ('Подрежим: ', slice(6, 7), FunctionSave(lists.kkt_submode_dict.get))
+        ('Режим: ', slice(5, 6), FunctionSave(lists.kkt_mode_list.get)),
+        ('Подрежим: ', slice(6, 7), FunctionSave(lists.kkt_submode_list.get))
     ),
     b'\x11': (
         ("Код ошибки: ", slice(1, 2), FunctionSave(from_bytes)),
@@ -42,8 +34,8 @@ answer_list = {
         ("Номер в зале: ", slice(10, 11), FunctionSave(from_bytes)),
         ("Сквозной номер текущего документа: ", slice(11, 13), FunctionSave(from_bytes)),
         ("Флаги: ", slice(13, 15), FunctionSave(kkt_flag_converse)),
-        ("Режим:", slice(15, 16), FunctionSave(lists.kkt_mode_dict.get)),
-        ("Подрежим: ", slice(16, 17), FunctionSave(lists.kkt_submode_dict.get)),
+        ("Режим:", slice(15, 16), FunctionSave(lists.kkt_mode_list.get)),
+        ("Подрежим: ", slice(16, 17), FunctionSave(lists.kkt_submode_list.get)),
         ("Порт ККТ: ", slice(17, 18), FunctionSave(from_bytes)),
         ("Дата: ", slice(25, 28), FunctionSave(date_converse)),
         ("Время: ", slice(28, 31), FunctionSave(time_converse)),
@@ -189,7 +181,7 @@ answer_list = {
         ("sПорядковый номер оператора: ", slice(1, 2), FunctionSave(from_bytes)),
     ),
     b'\xFF\x0C': (
-        ("Код ошибки: ", slice(1, 2), FunctionSave(from_bytes)),
+        ("Код ошибки: ", slice(2, 3), FunctionSave(from_bytes)),
     ),
     b'\xFF\x35': (
         ("Код ошибки: ", slice(2, 3), FunctionSave(from_bytes)),
@@ -212,9 +204,9 @@ answer_list = {
         ("Дата и время: ", slice(13, 18), FunctionSave(from_bytes)),
     ),
     b'\xFF\x4D': (
-        ("Код ошибки: ", slice(1, 2), FunctionSave(from_bytes)),
+        ("Код ошибки: ", slice(2, 3), FunctionSave(from_bytes)),
     ),
-    b'\xFE': (
-        ("Код ошибки: ", slice(1, 2), FunctionSave(from_bytes)),
+    b'\xFF\x67': (
+        ("Код ошибки: ", slice(2, 3), FunctionSave(from_bytes)),
     ),
 }
