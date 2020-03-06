@@ -1,12 +1,12 @@
 from setuptools import setup
 
 setup(
-    name='shtrih-fr-driver',
-    version='0.1.2',
-    packages=[''],
+    name='shtrih-drv',
+    version='0.1.5',
+    packages=['shtrih_drv'],
     url='https://github.com/kulyasovr/shtrih-fr-driver',
     license='MIT',
     author='Roman Kulyasov',
-    author_email='',
-    description=''
+    author_email='a@sad.com',
+    description='lalala'
 )
