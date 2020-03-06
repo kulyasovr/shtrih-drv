@@ -1,15 +1,16 @@
-# shtrih-fr-driver
+# shtrih-drv
 Реализация драйвера Штрих-м для ФР на python.
 # Использование
 Пример:
 ```python
-from commands import Commands
+import shtrih_drv
 
-device.connect()
+device = shtrih_drv.Commands()
+
+device.connect_tcp('192.168.137.111', 7778)
 device.first_require()
-device.open_session()
-device.operation_v2(3, 66, 'Выхухоль')
-device.close_check_v2(1222.33, 'Строка')
-device.close_session()
-device.disconnect()
+
+device.open_check()
+device.operation_v2(1, 10.16, 'Товар')
+device.close_check_v2(100.33, 'Подпись')
 ```
